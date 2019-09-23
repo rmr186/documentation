@@ -1,7 +1,3 @@
----
-description: VM to consensus layer bridge design
----
-
 # Kaspa Smart Contract Layer
 
 ### Introduction <a id="docs-internal-guid-f5283003-7fff-b008-89e3-90098ffdfe04"></a>
