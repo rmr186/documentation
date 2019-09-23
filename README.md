@@ -232,7 +232,7 @@ Silo state must be periodically saved in checkpoints to allow recovery from base
 
 ### Virtual Machine
 
-The virtual machine is the execution environment for the silo's smart contracts. The environment consists of a memory space representing silo state, smart contracts representing silo logic, and an interpreter for executing contract functions over silo state. In order to function properly over the base-layer bridge and to support the anytrust model, the machine needs to \(i\) have completely deterministic execution, so distinct distributed managers can agree on its state; \(ii\) support hashing its entire state to a constant-size hash which will be used by managers to make on-chain commitments; and \(iii\) be able to provide proof for correct execution of a single step of the machine. Below we extend on these requirements.
+The virtual machine is the execution environment for the silo's smart contracts. The environment consists of a memory space representing silo state, smart contracts representing silo logic, and an interpreter for executing contract functions over silo state. In order to function properly over the base-layer bridge and to support the antitrust model, the machine needs to \(i\) have completely deterministic execution, so distinct distributed managers can agree on its state; \(ii\) support hashing its entire state to a constant-size hash which will be used by managers to make on-chain commitments; and \(iii\) be able to provide proof for correct execution of a single step of the machine. Below we extend on these requirements.
 
 #### Deterministic Execution
 
