@@ -78,7 +78,7 @@ To simplify the discussion we abstract the base-layer's DAG structure into a _bl
 
 #### **Tree Structure**
 
-When a silo is created, it defines its initial state and provides a commitment to it. We refer to this initial commitment as the \*_genesis_\* commitment for this silo. Following the genesis commitment, any other commitment must point at some previous commitment as its logical ancestor, thus forming a tree structure. A fork in this tree means that two or more commitments in the tree are pointing to the same parent commitment. A fork can occur if \(i\) two \*_identical_\* commitments were made by two different managers, in which case we can simply treat them as one; \(ii\) two different \*_unsynced_\* commitments were made \(i.e., pointing at different reference blocks\), in which case we must provide a mechanism to eventually sync and logically unify them; and \(iii\) two different \*_synced_\* commitments were made, which means the two committing managers disagree regarding silo state and the disagreement must be resolved by a dispute resolution process.
+When a silo is created, it defines its initial state and provides a commitment to it. We refer to this initial commitment as the _genesis_ commitment for this silo. Following the genesis commitment, any other commitment must point at some previous commitment as its logical ancestor, thus forming a tree structure. A fork in this tree means that two or more commitments in the tree are pointing to the same parent commitment. A fork can occur if \(i\) two _identical_ commitments were made by two different managers, in which case we can simply treat them as one; \(ii\) two different _unsynced_ commitments were made \(i.e., pointing at different reference blocks\), in which case we must provide a mechanism to eventually sync and logically unify them; and \(iii\) two different _synced_ commitments were made, which means the two committing managers disagree regarding silo state and the disagreement must be resolved by a dispute resolution process.
 
 At times of normal execution, when no malicious managers are involved, the commitment tree is expected to immediately converge into a chain. If an attack occurs, the dispute process will allow us to eventually ignore and abandon the false commitment branches. A commitment node is hence considered finalized when it has no siblings in the tree and finality confirmation criteria have been reached for it. Finality rules imply that a commitment is finalized only if all its ancestors are finalized, thus forming an ever growing finality chain at the upper part of the tree, starting from the genesis.
 
@@ -88,8 +88,8 @@ In the following sections we describe the lottery mechanism by which a silo mana
 
 To address these cases, rather than sending a single commitment for the current reference block only, a committing manager should explicitly specify commitments to all not-yet-committed-to reference blocks. More formally, we define the following commitment rule:
 
-* Scenario: A manager wins a ticket for committing to reference block $j+k$ and the last commitment transaction it locally observes in the DAG is for reference block $j$.
-* Action: the manager reports $k-1$ commitments starting from reference block $j+1$ and ending with reference block $j+k$.
+* Scenario: A manager wins a ticket for committing to reference block _j+k_ and the last commitment transaction it locally observes in the DAG is for reference block _j_.
+* Action: the manager reports _k-1_ commitments starting from reference block _j+1_ and ending with reference block _j+k_.
   * There is no need to report a commitment for a reference block if it contains no transactions for this silo. 
 
 This way, when commitment transactions are received on-chain, any gap in the commitment chain can be immediately filled, and identical commitments can instantly be identified and merged in the tree. 
