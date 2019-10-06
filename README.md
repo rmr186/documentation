@@ -2,11 +2,6 @@
 
 ## Introduction
 
-
-ggggggggggggggggggggggggggggggggggggggggg
-
-
-
 DAGlabs aims to build a multi-layered cryptocurrency system with Nakamoto-style security on the base layer and EVM-style capabilities on the application layer. The community needs this new architectural concept because Ethereum is failing to achieve sound money conviction \(due to severe scalability issues, governance woes, and its move to proof of stake\) and Bitcoin is not useful for crypto-finance applications. Our system’s base consensus layer uses PHANTOM, a blockDAG protocol which is a generalization of Nakamoto consensus.
 
 In Ethereum, everyone runs every computation, which compromises its scalability. With layer 2 scaling solutions, only interested parties need to run computations, reverting to the universal-computation main chain only upon a dispute. Solutions differ in how data is committed to the chain in normal operations, what backs/collateralize the process, and what operations are taken by the base consensus upon a dispute.
