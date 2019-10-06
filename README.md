@@ -40,23 +40,23 @@ In order to support two-way pegging, silo managers publish short commitments to 
 
 ### Permissionless Manager Set
 
-We design a system where the manager set for a silo is completely dynamic and permissionless and requires only putting stake as deposit for participation. This means successful maintenance of a secure silo relies on free market forces influenced by silo-specific incentivization policy and on community interest in the silo.  
+We design a system where the manager set for a silo is completely dynamic and permissionless and requires only putting stake as deposit for participation. This means successful maintenance of a secure silo relies on free market forces influenced by silo-specific incentivization policy and on community interest in the silo.
 
-This is unlike the current Arbitrum design, where the set of managers for each silo is fixed \(i.e., a known group of managers defined at silo initialization\). The main motivation for Arbitrum’s design choice is that unanimous off-chain agreement can be easily achieved between all known managers, which is beneficial since it avoids the need for frequent on-chain communication and reduces the dependency on speed of the consensus mechanism. However, our DAG-based consensus layer provides high throughput and fast confirmation times and is less of a concern, and so we opt out of this design in favor of a dynamic market-driven system. 
+This is unlike the current Arbitrum design, where the set of managers for each silo is fixed \(i.e., a known group of managers defined at silo initialization\). The main motivation for Arbitrum’s design choice is that unanimous off-chain agreement can be easily achieved between all known managers, which is beneficial since it avoids the need for frequent on-chain communication and reduces the dependency on speed of the consensus mechanism. However, our DAG-based consensus layer provides high throughput and fast confirmation times and is less of a concern, and so we opt out of this design in favor of a dynamic market-driven system.
 
 ### Finality Rules
 
-In relation to permissionless silo governance, we also extend the finality rules to incorporate active confirmation of silo execution, taking into account the diversity of the dynamic manager set. This is as opposed to Arbitrum’s model which relies only on passive confirmation as time passes. Active confirmation is provided by uniformly-chosen random managers making subsequent commitments and hence actively confirming correctness. 
+In relation to permissionless silo governance, we also extend the finality rules to incorporate active confirmation of silo execution, taking into account the diversity of the dynamic manager set. This is as opposed to Arbitrum’s model which relies only on passive confirmation as time passes. Active confirmation is provided by uniformly-chosen random managers making subsequent commitments and hence actively confirming correctness.
 
 Additionally, we design a set of rules for managing complex situations of multiple disputes along the commitment chain, which may indicate a coordinated attack. The system is designed such that the attack does not delay the progress of the silo, but only affects its finality. Details are specified in the “Low-Level Description” section of this document.
 
 ### UTXO Base Layer
 
-While Arbitrum is built on Ethereum, we opt for a more scalable base layer, a blockDAG consensus layer \(specifically, PHANTOM\) that inherits the security of Nakamoto’s UTXO-based design. 
+While Arbitrum is built on Ethereum, we opt for a more scalable base layer, a blockDAG consensus layer \(specifically, PHANTOM\) that inherits the security of Nakamoto’s UTXO-based design.
 
 Over this UTXO layer we design a mechanism for the smart contract layer of unpegging/pegging from/to native UTXO coins; Arbitrum is a more abstract design and so lacks such base-layer dependent specific details. Additionally, in our system the blockDAG is the only reference for content and order of input transactions, and no explicit message inbox is maintained and used by silo managers.
 
-## Proof of Stake vs. Staking 
+## Proof of Stake vs. Staking
 
 Proof of stake suffers from inherent flaws, stemming from its coupling of economics and consensus, rendering it unsuitable for base-layer consensus. In contrast, we use the process of staking in a very restricted and defined manner: staking is used for incentivizing correct commitments to the silo state and strongly dis-incentivizing incorrect commitments. It is explicitly not used for ordering events and reorg resistance, and, as described below, the staking protocol’s security does not rely on the honest majority assumption that proof of stake does.
 
@@ -92,9 +92,9 @@ To address these cases, rather than sending a single commitment for the current 
 * Action: the manager reports _k-1_ commitments starting from reference block _j+1_ and ending with reference block _j+k_.
   * There is no need to report a commitment for a reference block if it contains no transactions for this silo. 
 
-This way, when commitment transactions are received on-chain, any gap in the commitment chain can be immediately filled, and identical commitments can instantly be identified and merged in the tree. 
+This way, when commitment transactions are received on-chain, any gap in the commitment chain can be immediately filled, and identical commitments can instantly be identified and merged in the tree.
 
-If, however, two synced commitments are found to be different, we must use the dispute process. The management of forks in the tree data structure in such cases is described below. 
+If, however, two synced commitments are found to be different, we must use the dispute process. The management of forks in the tree data structure in such cases is described below.
 
 ### Finality
 
@@ -116,7 +116,7 @@ Finality should eventually be reached also at times with no silo activity if eno
 
 To incentivize correct execution of a silo, miners must be able to penalize \(or reward\) silo managers for making \(or challenging\) false commitments. To support this, we define a staking mechanism in the base layer. Staking is also used to enforce an economically fair lottery for making commitments to a silo.
 
-####  Staking unit
+#### Staking unit
 
 When a silo is created it specifies in its configuration a _staking unit_ \(in the native currency\). This staking unit reflects an amount of currency that will be used to penalize false commitments and is high enough to discourage malicious behavior for this silo.
 
@@ -148,9 +148,9 @@ Technical note: the process of managing the commitment tree and the disputes is 
 
 Two cases to consider if multiple challenges are made:
 
-\* All challengers make the same commitment: In this case, if the first challenger wins, there is no need to run additional disputes. However if it loses, the other challengers should get a chance to defend their claim as well.  
+\* All challengers make the same commitment: In this case, if the first challenger wins, there is no need to run additional disputes. However if it loses, the other challengers should get a chance to defend their claim as well.
 
-\* Challengers make different commitments: In this case, we must run multiple disputes to eliminate all false commitments. 
+\* Challengers make different commitments: In this case, we must run multiple disputes to eliminate all false commitments.
 
 #### Commitment Branch
 
@@ -182,9 +182,8 @@ Sending currency _to_ this account is as simple as any currency transfer \(signe
 
 To make sure the silo account has no private key which can be used to sign transactions without involvement of silo managers, we can either:
 
-\* Use a special type of address which is inherently different from usual user addresses and is processed differently; or
-
-\* Use a usual public address, but make sure it is generated in such a way that no one knows a private key for it.
+* Use a special type of address which is inherently different from usual user addresses and is processed differently; or
+* Use a usual public address, but make sure it is generated in such a way that no one knows a private key for it.
 
 #### Pegging
 
@@ -192,9 +191,9 @@ Pegging is the process of transferring currency from base-layer to silo control.
 
 #### Unpegging
 
-Unpegging is the reverse operation of sending native currency from the silo account to a user account. As explained above, unpegging requires waiting for finality of the initiating commitment and thus passes through the outbox of a silo.  
+Unpegging is the reverse operation of sending native currency from the silo account to a user account. As explained above, unpegging requires waiting for finality of the initiating commitment and thus passes through the outbox of a silo.
 
-There is, however, a challenge in managing such unpegging transactions. For instance, consider a basic scenario where a silo manages an account-based model and the user would like to pull currency from its internal silo account to its native public address. The user calls a function in the silo's contract for requesting the operation. However, in order to create a native transaction, the silo contract code must access UTXO coins, which are associated with the silo’s native account, to use them as inputs. This is problematic since it requires access to data external to the silo state \(to enforce deterministic execution which is required for the dispute mechanism, I/O should not be possible within a silo\). Another problem is that those coins must be "locked" until the transaction is actually published on-chain post finality.    
+There is, however, a challenge in managing such unpegging transactions. For instance, consider a basic scenario where a silo manages an account-based model and the user would like to pull currency from its internal silo account to its native public address. The user calls a function in the silo's contract for requesting the operation. However, in order to create a native transaction, the silo contract code must access UTXO coins, which are associated with the silo’s native account, to use them as inputs. This is problematic since it requires access to data external to the silo state \(to enforce deterministic execution which is required for the dispute mechanism, I/O should not be possible within a silo\). Another problem is that those coins must be "locked" until the transaction is actually published on-chain post finality.
 
 Instead of preparing actual transactions in the outbox, the outbox operation should only include the required metadata for the operation. This should be in the form "user \*x\* should get paid \*y\* coins from silo account". Later, when finality is reached, a manager can group all these operations into a single native \*unpegging transaction\*, passing currency from the silo to the list of specified users with the specified amounts, along with the corresponding witnesses to the source commitment. At this stage, the manager can easily access any required UTXO inputs, since this step is not executed from within silo contract code. To prevent double spending of such a transaction \(replay\), a Boolean field attached to each finalized commitment should indicate if its unpegging transaction has already been processed. Another option would be to manage an increasing nonce for each silo for tracking all unpegging transactions.
 
@@ -240,7 +239,7 @@ The virtual machine must be completely deterministic. That is, every code execut
 
 \* I/O should not be supported within silo code, since access to external data may lead to non-deterministic results. Silos may receive external data only through function call transactions which are agreed upon by base-layer consensus and can be validated by miners at dispute times
 
-\* Usage of floating point operations etc. may be restricted 
+\* Usage of floating point operations etc. may be restricted
 
 \* Randomization can be allowed only if fixed seeds are used
 
@@ -264,9 +263,8 @@ The one-step proof will work as follows:
 
 According to PC, miners read the next instruction to execute from the smart contract binaries
 
-2. According to this instruction the prover reveals other data segments, for instance if the instruction to execute is "add", the prover will read the location of the stack head and the content of the two top values in the stack. 
-
-3. The miners can now validate that only the correct data was modified and that the following state commitment is consistent with the executed instruction.
+1. According to this instruction the prover reveals other data segments, for instance if the instruction to execute is "add", the prover will read the location of the stack head and the content of the two top values in the stack.
+2. The miners can now validate that only the correct data was modified and that the following state commitment is consistent with the executed instruction.
 
 #### Peacetime Commitments vs. Dispute Time Negotiation
 
