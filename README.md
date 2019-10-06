@@ -148,9 +148,8 @@ Technical note: the process of managing the commitment tree and the disputes is 
 
 Two cases to consider if multiple challenges are made:
 
-\* All challengers make the same commitment: In this case, if the first challenger wins, there is no need to run additional disputes. However if it loses, the other challengers should get a chance to defend their claim as well.
-
-\* Challengers make different commitments: In this case, we must run multiple disputes to eliminate all false commitments.
+* All challengers make the same commitment: In this case, if the first challenger wins, there is no need to run additional disputes. However if it loses, the other challengers should get a chance to defend their claim as well.
+* Challengers make different commitments: In this case, we must run multiple disputes to eliminate all false commitments.
 
 #### Commitment Branch
 
